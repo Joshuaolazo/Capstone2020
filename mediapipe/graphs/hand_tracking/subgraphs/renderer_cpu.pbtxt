@@ -21,7 +21,7 @@ node {
     }
   }
 }
-
+# the dots and the lines
 # Converts landmarks to drawing primitives for annotation overlay.
 node {
   calculator: "LandmarksToRenderDataCalculator"
@@ -71,7 +71,7 @@ node {
       landmark_connections: 19
       landmark_connections: 19
       landmark_connections: 20
-      landmark_color { r: 255 g: 0 b: 0 }
+      landmark_color { r: 0 g: 0 b: 255 }
       connection_color { r: 0 g: 255 b: 0 }
       thickness: 4.0
     }

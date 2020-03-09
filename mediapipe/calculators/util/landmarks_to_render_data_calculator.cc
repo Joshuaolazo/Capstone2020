@@ -23,6 +23,8 @@
 #include "mediapipe/framework/port/ret_check.h"
 #include "mediapipe/util/color.pb.h"
 #include "mediapipe/util/render_data.pb.h"
+#include <iostream>
+#include <fstream>
 namespace mediapipe {
 
 namespace {
@@ -158,12 +160,13 @@ REGISTER_CALCULATOR(LandmarksToRenderDataCalculator);
     CalculatorContext* cc) {
   cc->SetOffset(TimestampDiff(0));
   options_ = cc->Options<LandmarksToRenderDataCalculatorOptions>();
-
   return ::mediapipe::OkStatus();
 }
 
 ::mediapipe::Status LandmarksToRenderDataCalculator::Process(
     CalculatorContext* cc) {
+  std::ofstream myfile;
+  myfile.open ("outs.txt", std::ofstream::app);
   auto render_data = absl::make_unique<RenderData>();
   bool visualize_depth = options_.visualize_landmark_depth();
   float z_min = 0.f;
@@ -200,7 +203,7 @@ REGISTER_CALCULATOR(LandmarksToRenderDataCalculator);
                                    render_data.get());
     }
   }
-
+  
   if (cc->Inputs().HasTag(kNormLandmarksTag)) {
     const NormalizedLandmarkList& landmarks =
         cc->Inputs().Tag(kNormLandmarksTag).Get<NormalizedLandmarkList>();
@@ -222,7 +225,11 @@ REGISTER_CALCULATOR(LandmarksToRenderDataCalculator);
       }
       auto* landmark_data = landmark_data_render->mutable_point();
       landmark_data->set_normalized(true);
+      // the points
       landmark_data->set_x(landmark.x());
+      if(i==8){
+        myfile << "("<<landmark.x()<< ","<<landmark.y()<< "), ";
+      }
       landmark_data->set_y(landmark.y());
     }
     if (visualize_depth) {
@@ -233,7 +240,7 @@ REGISTER_CALCULATOR(LandmarksToRenderDataCalculator);
                                              render_data.get());
     }
   }
-
+  myfile.close();
   cc->Outputs()
       .Tag(kRenderDataTag)
       .Add(render_data.release(), cc->InputTimestamp());
@@ -256,6 +263,7 @@ void LandmarksToRenderDataCalculator::AddConnectionsWithDepth(
   }
 }
 
+// For the red box
 void LandmarksToRenderDataCalculator::AddConnectionToRenderData(
     float start_x, float start_y, float end_x, float end_y,
     const LandmarksToRenderDataCalculatorOptions& options, bool normalized,
@@ -288,7 +296,7 @@ void LandmarksToRenderDataCalculator::AddConnections(
                               normalized, render_data);
   }
 }
-
+// for green lines but x and y is swapped
 void LandmarksToRenderDataCalculator::AddConnectionToRenderData(
     float start_x, float start_y, float end_x, float end_y,
     const LandmarksToRenderDataCalculatorOptions& options, bool normalized,

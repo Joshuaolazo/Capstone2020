@@ -2,7 +2,7 @@
 #include "mediapipe/framework/calculator_framework.h"
 #include "mediapipe/framework/formats/landmark.pb.h"
 #include "mediapipe/framework/formats/rect.pb.h"
-
+#include <string>
 namespace mediapipe
 {
 
@@ -62,8 +62,7 @@ REGISTER_CALCULATOR(HandGestureRecognitionCalculator);
 ::mediapipe::Status HandGestureRecognitionCalculator::Open(
     CalculatorContext *cc)
 {
-    cc->SetOffset(TimestampDiff(0));
-    return ::mediapipe::OkStatus();
+    cc->SetOffset(TimestampDiff(0));    return ::mediapipe::OkStatus();
 }
 
 ::mediapipe::Status HandGestureRecognitionCalculator::Process(
@@ -97,6 +96,9 @@ REGISTER_CALCULATOR(HandGestureRecognitionCalculator);
     bool secondFingerIsOpen = false;
     bool thirdFingerIsOpen = false;
     bool fourthFingerIsOpen = false;
+    //
+
+    //Josh
     //
 
     float pseudoFixKeyPoint = landmarkList.landmark(2).x();
@@ -140,7 +142,11 @@ REGISTER_CALCULATOR(HandGestureRecognitionCalculator);
     }
     else if (thumbIsOpen && firstFingerIsOpen && secondFingerIsOpen && !thirdFingerIsOpen && !fourthFingerIsOpen)
     {
-        recognized_hand_gesture = new std::string("TREE");
+        recognized_hand_gesture = new std::string("THREE");
+    }
+    else if (!thumbIsOpen && firstFingerIsOpen && secondFingerIsOpen && thirdFingerIsOpen && !fourthFingerIsOpen)
+    {
+        recognized_hand_gesture = new std::string("THREE");
     }
     else if (thumbIsOpen && firstFingerIsOpen && !secondFingerIsOpen && !thirdFingerIsOpen && !fourthFingerIsOpen)
     {
@@ -153,6 +159,10 @@ REGISTER_CALCULATOR(HandGestureRecognitionCalculator);
     else if (!thumbIsOpen && firstFingerIsOpen && secondFingerIsOpen && !thirdFingerIsOpen && !fourthFingerIsOpen)
     {
         recognized_hand_gesture = new std::string("YEAH");
+    }
+    else if (thumbIsOpen && !firstFingerIsOpen && !secondFingerIsOpen && !thirdFingerIsOpen && fourthFingerIsOpen)
+    {
+        recognized_hand_gesture = new std::string("HANG LOOSE");
     }
     else if (!thumbIsOpen && firstFingerIsOpen && !secondFingerIsOpen && !thirdFingerIsOpen && fourthFingerIsOpen)
     {
@@ -172,11 +182,14 @@ REGISTER_CALCULATOR(HandGestureRecognitionCalculator);
     }
     else
     {
-        recognized_hand_gesture = new std::string("___");
-        LOG(INFO) << "Finger States: " << thumbIsOpen << firstFingerIsOpen << secondFingerIsOpen << thirdFingerIsOpen << fourthFingerIsOpen;       
+        recognized_hand_gesture = new std::string("NOTHING");
+        //LOG(INFO) << "Finger States: " << thumbIsOpen << firstFingerIsOpen << secondFingerIsOpen << thirdFingerIsOpen << fourthFingerIsOpen;
+        //LOG(INFO) << "Pointer Finger: x " << landmarkList.landmark(8).x() << " y " << landmarkList.landmark(8).y() << " z " << landmarkList.landmark(8).z();
+        
     }
-    // LOG(INFO) << recognized_hand_gesture;
-
+    
+    
+        
     cc->Outputs()
         .Tag(recognizedHandGestureTag)
         .Add(recognized_hand_gesture, cc->InputTimestamp());

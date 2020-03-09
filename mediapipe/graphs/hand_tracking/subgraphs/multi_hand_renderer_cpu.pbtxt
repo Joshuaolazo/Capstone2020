@@ -1,5 +1,5 @@
 # MediaPipe multi-hand tracking rendering subgraph.
-
+# we dont use this
 type: "MultiHandRendererSubgraph"
 
 input_stream: "IMAGE:input_image"
@@ -26,6 +26,7 @@ node {
   }
 }
 
+# hand dots
 # Converts normalized rects to drawing primitives for annotation overlay.
 node {
   calculator: "RectToRenderDataCalculator"
@@ -34,7 +35,7 @@ node {
   node_options: {
     [type.googleapis.com/mediapipe.RectToRenderDataCalculatorOptions] {
       filled: false
-      color { r: 255 g: 0 b: 0 }
+      color { r: 0 g: 0 b: 255 }
       thickness: 4.0
     }
   }
