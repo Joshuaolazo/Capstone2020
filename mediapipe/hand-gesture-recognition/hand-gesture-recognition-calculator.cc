@@ -3,6 +3,8 @@
 #include "mediapipe/framework/formats/landmark.pb.h"
 #include "mediapipe/framework/formats/rect.pb.h"
 #include <string>
+#include <iostream>
+#include <fstream>
 namespace mediapipe
 {
 
@@ -56,6 +58,7 @@ REGISTER_CALCULATOR(HandGestureRecognitionCalculator);
     RET_CHECK(cc->Outputs().HasTag(recognizedHandGestureTag));
     cc->Outputs().Tag(recognizedHandGestureTag).Set<std::string>();
 
+\
     return ::mediapipe::OkStatus();
 }
 
@@ -68,6 +71,8 @@ REGISTER_CALCULATOR(HandGestureRecognitionCalculator);
 ::mediapipe::Status HandGestureRecognitionCalculator::Process(
     CalculatorContext *cc)
 {
+    std::ofstream myfile;
+    myfile.open ("Gouts.txt", std::ofstream::app);
     std::string *recognized_hand_gesture;
 
     // hand closed (red) rectangle
@@ -135,54 +140,67 @@ REGISTER_CALCULATOR(HandGestureRecognitionCalculator);
     if (thumbIsOpen && firstFingerIsOpen && secondFingerIsOpen && thirdFingerIsOpen && fourthFingerIsOpen)
     {
         recognized_hand_gesture = new std::string("FIVE");
+        myfile << "FIVE\n";
     }
     else if (!thumbIsOpen && firstFingerIsOpen && secondFingerIsOpen && thirdFingerIsOpen && fourthFingerIsOpen)
     {
         recognized_hand_gesture = new std::string("FOUR");
+        myfile << "FOUR\n";
     }
     else if (thumbIsOpen && firstFingerIsOpen && secondFingerIsOpen && !thirdFingerIsOpen && !fourthFingerIsOpen)
     {
         recognized_hand_gesture = new std::string("THREE");
+        myfile << "THREE\n";
     }
     else if (!thumbIsOpen && firstFingerIsOpen && secondFingerIsOpen && thirdFingerIsOpen && !fourthFingerIsOpen)
     {
         recognized_hand_gesture = new std::string("THREE");
+        myfile << "THREE\n";
     }
     else if (thumbIsOpen && firstFingerIsOpen && !secondFingerIsOpen && !thirdFingerIsOpen && !fourthFingerIsOpen)
     {
         recognized_hand_gesture = new std::string("TWO");
+        myfile << "TWO\n";
     }
     else if (!thumbIsOpen && firstFingerIsOpen && !secondFingerIsOpen && !thirdFingerIsOpen && !fourthFingerIsOpen)
     {
         recognized_hand_gesture = new std::string("ONE");
+        myfile << "ONE\n";
     }
     else if (!thumbIsOpen && firstFingerIsOpen && secondFingerIsOpen && !thirdFingerIsOpen && !fourthFingerIsOpen)
     {
         recognized_hand_gesture = new std::string("YEAH");
+        myfile << "YEAH\n";
     }
     else if (thumbIsOpen && !firstFingerIsOpen && !secondFingerIsOpen && !thirdFingerIsOpen && fourthFingerIsOpen)
     {
         recognized_hand_gesture = new std::string("HANG LOOSE");
+        myfile << "HANG LOOSE\n";
     }
     else if (!thumbIsOpen && firstFingerIsOpen && !secondFingerIsOpen && !thirdFingerIsOpen && fourthFingerIsOpen)
     {
         recognized_hand_gesture = new std::string("ROCK");
+        myfile << "ROCK\n";
     }
     else if (thumbIsOpen && firstFingerIsOpen && !secondFingerIsOpen && !thirdFingerIsOpen && fourthFingerIsOpen)
     {
         recognized_hand_gesture = new std::string("SPIDERMAN");
+        myfile << "SPIDERMAN\n";  
     }
     else if (!thumbIsOpen && !firstFingerIsOpen && !secondFingerIsOpen && !thirdFingerIsOpen && !fourthFingerIsOpen)
     {
         recognized_hand_gesture = new std::string("FIST");
+        myfile << "FIST\n";
     }
     else if (!firstFingerIsOpen && secondFingerIsOpen && thirdFingerIsOpen && fourthFingerIsOpen && this->isThumbNearFirstFinger(landmarkList.landmark(4), landmarkList.landmark(8)))
     {
         recognized_hand_gesture = new std::string("OK");
+        myfile << "OK\n";
     }
     else
     {
         recognized_hand_gesture = new std::string("NOTHING");
+        //std::cout << "nothing\n";
         //LOG(INFO) << "Finger States: " << thumbIsOpen << firstFingerIsOpen << secondFingerIsOpen << thirdFingerIsOpen << fourthFingerIsOpen;
         //LOG(INFO) << "Pointer Finger: x " << landmarkList.landmark(8).x() << " y " << landmarkList.landmark(8).y() << " z " << landmarkList.landmark(8).z();
         
