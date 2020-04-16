@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9b941eed-5db2-4e4b-b1ec-48a2f1e0e64c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/handtracking/mover.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vscode/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/settings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mediapipe/hand-gesture-recognition/hand-gesture-recognition-calculator.cc" beforeDir="false" afterPath="$PROJECT_DIR$/mediapipe/hand-gesture-recognition/hand-gesture-recognition-calculator.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mediapipe/outs.txt" beforeDir="false" afterPath="$PROJECT_DIR$/mediapipe/outs.txt" afterDir="false" />
-    </list>
+    <list default="true" id="9b941eed-5db2-4e4b-b1ec-48a2f1e0e64c" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,6 +109,9 @@
       <pane id="Scope" />
     </panes>
   </component>
+  <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+  </component>
   <component name="RunDashboard">
     <option name="ruleStates">
       <list>
@@ -169,7 +167,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24242425" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
